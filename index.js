@@ -1,12 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require('cors')
 
 morgan.token("body", (request) => {
   return request.body;
 });
 
 const app = express();
-
+app.use(cors())
 app.use(express.json());
 
 const assignBodyJson = (request, response, next) => {

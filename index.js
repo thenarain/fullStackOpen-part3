@@ -53,9 +53,9 @@ app.get("/api/persons/:id", (request, response) => {
 });
 
 app.delete("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  persons = persons.filter((n) => n.id !== id);
-  response.status(204).end();
+  Person.findByIdAndDelete(request.params.id).then(result => {
+    response.status(204).end()
+  })
 });
 
 app.post("/api/persons", (request, response) => {

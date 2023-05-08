@@ -43,15 +43,14 @@ app.get("/info", (request, response) => {
   }).catch(error => next(error))
 });
 
-app.get("/api/persons/:id", (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find((n) => n.id === id);
-
-  if (!person) {
-    response.status(404).end();
-  } else {
-    response.json(person);
-  }
+app.get("/api/persons/:id", (request, response, next) => {
+  Person.findById(request.params.id).then(contact => {
+    if (contact) {
+      response.json(contact)
+    } else {
+      response.status(404).end()
+    }
+  }).catch(error => next(error))
 });
 
 app.put("/api/persons/:id", (request, response) =>{
@@ -96,7 +95,7 @@ app.post("/api/persons", (request, response) => {
 });
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)

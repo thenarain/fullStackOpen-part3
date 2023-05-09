@@ -34,10 +34,9 @@ app.use((request, response, next) => {
   next();
 });
 
-app.get("/info", (request, response) => {
+app.get("/info", (request, response, next) => {
   const requestTime = new Date(request.requestTime);
   Person.countDocuments({}).then(result => {
-    console.log(result);
     let responseText = `<div>Phonebook has info for ${result} people</div><br><div>${requestTime}</div>`;
     response.send(responseText);
   }).catch(error => next(error))
@@ -53,7 +52,7 @@ app.get("/api/persons/:id", (request, response, next) => {
   }).catch(error => next(error))
 });
 
-app.put("/api/persons/:id", (request, response) =>{
+app.put("/api/persons/:id", (request, response, next) =>{
   const body = JSON.parse(request.body)
 
   const person = {
@@ -65,13 +64,13 @@ app.put("/api/persons/:id", (request, response) =>{
   }).catch(error => next(error))
 })
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndDelete(request.params.id).then(result => {
     response.status(204).end()
   }).catch(error => next(error))
 });
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = JSON.parse(request.body);
 
   if (!body.name) {
@@ -105,6 +104,7 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(404).send({ error: 'malformatted id' })
   }
+  next(error)
 }
 
 app.use(errorHandler)

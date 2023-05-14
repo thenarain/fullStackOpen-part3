@@ -6,6 +6,7 @@
   "scripts": {
     "build:ui": "rm -rf build && cd ../full-stack-open/part2/phonebook && npm run build && cp -r build ../../.././fullStackOpen-part3",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
+    "lint": "eslint .",
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,6 +21,12 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "nodemon": "^2.0.22"
   }
 }
